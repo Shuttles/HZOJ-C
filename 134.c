@@ -19,3 +19,15 @@ int main() {
     }
     return 0;
 }
+/*
+    int flag = 0;
+    for (i = a; i <= b; i++) {
+        if (!(i % 11)) {
+            if (flag) {
+                printf(" ");
+            }
+            printf("%d", i);
+            flag = 1;
+        } 
+    
+     }*/

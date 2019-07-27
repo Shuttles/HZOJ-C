@@ -15,7 +15,7 @@ int main() {
         x1 *= 1.06;
         
     }
-   // x = (int) (x1);
+    x = (int) (x1);
     printf("%lf\n", x1);
    
 
