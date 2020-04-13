@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <queue>
+#include <cstdio>
+#include <cstdlib>
 using namespace std;
 
 bool AboutSeven(int x) {
@@ -23,6 +25,7 @@ int main() {
     int n, x, t;
     queue<int> q;
     cin >> n >> x >> t;
+    //注意入队顺序！！！
     for (int i = x; i <= n; i++) {
         q.push(i);
     }
@@ -32,8 +35,10 @@ int main() {
     
     while (q.size() > 1) {
         if (AboutSeven(t)) {
+            //如果符合要求，就淘汰(出队)
             q.pop();
         } else {
+            //否则去队尾
             q.push(q.front());
             q.pop();
         }
