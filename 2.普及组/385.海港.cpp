@@ -31,6 +31,7 @@ int main() {
         int t = 0;
         int sum = 0;
         scanf("%d%d", &t, &sum);
+        /*每次到达一艘船，将此时刻86400s前的人全部出队列*/
         while (q.empty() != 0) {
             person tmp = q.front();
             if (t - tmp.time < 86400) break;
