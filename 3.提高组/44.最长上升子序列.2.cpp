@@ -15,7 +15,7 @@ using namespace std;
 #define INF 0x3f3f3f3f
 
 int dp[MAX_N + 5];//以第i位作为结尾的最长子序列长度
-int arr[MAX_N + 5], len[MAX_N + 5], sum;//len[i]为长度为i的子序列的尾部最小值
+int arr[MAX_N + 5], len[MAX_N + 5], sum;//len[i]为长度为i的子序列中尾部值最小的
 
 int bs(int *arr, int l, int r, int x) {
     /*找到第一个大于等于x的位置*/
