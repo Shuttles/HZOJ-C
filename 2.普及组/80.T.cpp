@@ -26,7 +26,8 @@ int func(int x, int y) {
             if (func(tx, ty)) {
                 return 1;
             } 
-    } 
+        } 
+    }
     return 0;
 }
 
