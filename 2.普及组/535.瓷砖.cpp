@@ -28,6 +28,7 @@ int main() {
             cin >> mmap[i][j];
             if (mmap[i][j] == '@') {
                 sx = i, sy = j;
+                printf("起点！\n");
             }
         }
     }
@@ -45,6 +46,7 @@ void dfs(int x, int y) {
         if (mmap[dx][dy] == '#') continue;
         if (dx < 0 || dx > w || dy < 0 || dy > h) continue;
         used[dx][dy] = true;
+        printf("ans + 1!\n");
         ans += 1;
         dfs(dx, dy);
         //不用解锁
