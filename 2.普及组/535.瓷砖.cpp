@@ -21,14 +21,12 @@ int dnext[4][2] = {
 void dfs(int, int);
 
 int main() {
-    int h, w;
     cin >> h >> w;
     for (int i = 0; i < w; i++) {
         for (int j = 0; j < h; j++) {
             cin >> mmap[i][j];
             if (mmap[i][j] == '@') {
                 sx = i, sy = j;
-                printf("起点！\n");
             }
         }
     }
@@ -42,14 +40,22 @@ void dfs(int x, int y) {
     for (int i = 0; i < 4; i++) {
         int dx = x + dnext[i][0];
         int dy = y + dnext[i][1];
-        if (used[dx][dy] == true) continue;
-        if (mmap[dx][dy] == '#') continue;
-        if (dx < 0 || dx > w || dy < 0 || dy > h) continue;
+        if (used[dx][dy] == true) {
+            //printf("used[%d][%d] == true!\n", dx, dy);
+            continue;
+        }
+        if (mmap[dx][dy] == '#') {
+            //printf("mmap[%d][%d] == '#'!\n", dx, dy);
+            continue;
+        }
+        if (dx < 0 || dx >= w || dy < 0 || dy >= h) {
+            //printf("mmap[%d][%d]越界！\n", dx, dy);
+            continue;
+        }
         used[dx][dy] = true;
-        printf("ans + 1!\n");
         ans += 1;
         dfs(dx, dy);
-        //不用解锁
+        //不用解锁，why？看题目的语义信息！！
     }
     return ;
 }
