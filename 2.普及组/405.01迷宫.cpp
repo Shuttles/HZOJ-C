@@ -41,16 +41,11 @@ int main() {
             if (used[i][j]) continue;             //如果已经标记过，就不走了
             ans = 1;
             used[i][j] = 1;                       //把起点锁上！
-            //node temp;
-            //temp.x = i, temp.y = j;
             q.push(node(i, j));
-            printf("before dfs!\n");
             dfs(i, j);
-            printf("after dfs!\n");
             while (!q.empty()) {                  //把这个起点所能走到的所有格都填上
                 node temp1 = q.front();
                 q.pop();
-                //printf("used[%d][%d]！\n", temp1.x, temp1.y);
                 used[temp1.x][temp1.y] = ans;
             }
         }
@@ -68,19 +63,15 @@ int main() {
 }
 
 void dfs(int x, int y) {
-    cout << "in dfs!" << endl;
     for (int i = 0; i < 4; i++) {
         int dx = x + dnext[i][0];
         int dy = y + dnext[i][1];
+        if (dx < 0 || dx >= n || dy < 0 || dy >= m) continue;//一定要把越界判断放第一个判断！！！否则会数组越界！！
         if (used[dx][dy]) continue;
         if (mmap[dx][dy] == mmap[x][y]) continue;
-        if (dx < 0 || dx >= n || dy < 0 || dy >= m) continue;
         ans += 1;
         used[dx][dy] = 1;
-        //node temp2;
-        //temp2.x = dx, temp2.y = dy;
         q.push(node(dx, dy));
-        //printf("mmap[%d][%d]可走！\n", dx, dy);
         dfs(dx, dy);
         //不用解锁
     }
