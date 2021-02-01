@@ -26,7 +26,12 @@ using namespace std;
 
 //题目要求是MAX_M 2^31 但是开不出来这么大数组，所以能开多少是多少
 //由此可见，最终应该还需要优化
-//而且时间复杂度为O(n * m^2)，比较慢
+//而且时间复杂度为O(n * m^2)，比较慢，HZOJ只能得30分
+//
+//这种方法是转移过程的优化，通过寻找ｋ与dp[i - 1][k - 1]、dp[i][j - k]的关系可以得到
+//拐点，也就是最优的转移K值，一定发生在两者的交点处，并且是递增的
+//从而可以去掉第三层循环
+//优化后的时间复杂度为O(n * m)   HZOJ可以得60分
 #define MAX_N 32
 #define MAX_M 1000000 
 int dp[MAX_N + 5][MAX_M + 5];
@@ -39,22 +44,21 @@ int main() {
     for (int i = 1; i <= m; i++) dp[1][i] = i;
 
     for (int i = 2; i <= n; i++) {
+        int k = 1;//k是那个拐点
         for (int j = 1; j <= m; j++) {
-            dp[i][j] = MAX_M;
-            int temp = 0;
-            for (int k = 1; k <= j; k++) {
-                temp = max(dp[i - 1][k - 1] + 1, dp[i][j - k] + 1);  //max表示运气最差(最坏情况)
-                dp[i][j] = min(dp[i][j], temp);//min表示最少测多少次
-            }
+            while (k <= j && dp[i - 1][k - 1] < dp[i][j - k]) ++k;
+            dp[i][j] = max(dp[i - 1][k - 1], dp[i][j - k]) + 1;
         }
     }
     cout << dp[n][m] << endl;
 
+    /*
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= m; j++) {
             printf("%d ", dp[i][j]);
         }
-        cout << endl;
-    }
+        printf("\n"); 
+    }*/
+
     return 0;
 }
