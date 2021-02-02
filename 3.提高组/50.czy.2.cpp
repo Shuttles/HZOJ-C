@@ -32,6 +32,7 @@ using namespace std;
 //拐点，也就是最优的转移K值，一定发生在两者的交点处，并且是递增的
 //从而可以去掉第三层循环
 //优化后的时间复杂度为O(n * m)   HZOJ可以得60分
+//其实这种方法的正确性我一直不是很懂。。。。
 #define MAX_N 32
 #define MAX_M 1000000 
 int dp[MAX_N + 5][MAX_M + 5];
@@ -47,7 +48,7 @@ int main() {
         int k = 1;//k是那个拐点
         for (int j = 1; j <= m; j++) {
             while (k <= j && dp[i - 1][k - 1] < dp[i][j - k]) ++k;
-            dp[i][j] = max(dp[i - 1][k - 1], dp[i][j - k]) + 1;
+            dp[i][j] = max(dp[i - 1][k - 1], dp[i][j - k]) + 1;//其实可以不用max????
         }
     }
     cout << dp[n][m] << endl;
