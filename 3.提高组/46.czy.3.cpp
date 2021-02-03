@@ -22,19 +22,27 @@ using namespace std;
 
 //dp[i] 以str[i]作为结尾，最少分成多少段...
 //dp[i] = min(dp[j]) + 1   |  j<i, j+1~i是回文串
+//
+//优化：转移过程的优化
+//维护一个mark[], mark[i]是以i为结尾的回文串的首部下标
+//那么转移的时候的时间复杂度就和回文串的数量有关了,　和字符串长度就没什么关系了
+//
+//如何获取回文串？
+//以每个位置作为回文串的中心点，向周围进行扩展，扩展出字符串
 
 #define MAX_N 500000
 string str;
 int dp[MAX_N + 5];
 
-//hug实现的is_palindromic
-//高下立判啊！
-bool is_palindromic(string &s, int start, int end) {
-    int i = start, j = end;
-    while (i < j) {
-        if (str[i++] - str[j--]) return false;
+vector<int> mark[MAX_N + 5];
+
+int expand(string &s, int i, int j) {
+    while (s[i] == s[j]) {
+        mark[j].push_back(i);
+        --i, ++j;
+        if (i < 1 || j > s.size() - 1) break;
     }
-    return true;
+    return 1;
 }
 
 int main() {
@@ -43,16 +51,17 @@ int main() {
     dp[0] = 0;//为特殊情况而设定的
     dp[1] = 1;
 
-    //特殊情况：gvgzcdwujv
-    //gvg的时候就是切0刀，分1段      这时候就看出来这种状态定义的优秀之处了！
+    //初始化mark[]
+    for (int i = 1; str[i]; i++) {
+        expand(str, i, i);//扩展出来的是拥有奇数个字符的回文串
+        (i + 1 <= (str.size() - 1)) && expand(str, i, i + 1);//偶数个字符
+    }
+
     for (int i = 2; i <= str.size() - 1; i++) {
-        //初始化dp数组
         dp[i] = dp[i - 1] + 1;
-        for (int j = 0; j < i; j++) {
-            if (!is_palindromic(str, j + 1, i)) continue;
-            dp[i] = min(dp[i], dp[j] + 1);
+        for (int j = 0; j < mark[i].size(); j++) {
+            dp[i] = min(dp[i], dp[mark[i][j] - 1] + 1);
         }
-        //printf("dp[%d] = %d\n", i, dp[i]);
     }
 
     cout << dp[str.size() - 1] - 1 << endl;
