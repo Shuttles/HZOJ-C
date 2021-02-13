@@ -19,22 +19,25 @@
 using namespace std;
 
 #define MAX_N 300000
-int arr[MAX_N + 5], s[MAX_N + 5];//s是arr[]的前缀和数组
+int arr[MAX_N + 5], s[MAX_N + 5] = {0};//s是arr[]的前缀和数组
 int q[MAX_N + 5];//s的单调队列，要使s[i] - s[j]最大，则s[j]就是滑动窗口内的最小值，所以q是单调递增队列
 int head = 0, tail = 0;
 
 int main() {
     int n, m, ans = 0;
     cin >> n >> m;
-    for (int i = 1; i <= n; i++) cin >> arr[i];
-
-    s[0] = 0;
     for (int i = 1; i <= n; i++) {
+        cin >> arr[i];
         s[i] = s[i - 1] + arr[i];
+    }
+
+    head = tail = 0;
+    q[tail++] = 0;//一定要把s[0]入队列！！否则会漏掉arr[1]的计算！！
+    for (int i = 1; i <= n; i++) {
         while (head - tail && s[q[tail - 1]] > s[i]) --tail;
         q[tail++] = i;
         if (q[head] < i - m) ++head;//注意这一定是<，因为这是前缀和数组的单调队列！
-        //if (i < m) continue;//滑动窗口开始
+        //if (i < m) continue;//滑动窗口开始  //这行一定不能有！仔细想想为什么！
         
         ans = max(ans, s[i] - s[q[head]]);
     }
